@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booctamp result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #efefef;
+            height: 100vh;
+        }
+
+        button {
+            width: 140px;
+            margin: 0px 0px 0px 10px;
+        }
+
+        .card {
+            width: 600px;
+        }
+
+    </style>
+</head>
+
+<body class="container d-flex justify-content-center align-items-center">
+    <div class="card">
+        <div class="card-header">
+            <h1>Create your hashcode</h1>
+        </div>
+
+        <div class="card-body">
+            <form id="urlForm" method="post" class="d-flex justify-content-between">
+                <input id="originalUrl" class="form-control" type="text" placeholder="Example_hashcode" />
+                <select id="algorithm" class="form-select">
+                    <option value="MD5">MD5</option>
+                    <option value="SHA1">SHA1</option>
+                    <option value="SHA256">SHA256</option>
+                </select>
+                <button type="button" id="createButton" class="btn btn-success">Create hashcode</button>
+            </form>
+
+            <div id="result" style="display: none;">
+                <h3 id="latestHash"></h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        let lastAlgorithm = '';
+
+        document.getElementById('createButton').addEventListener('click', function () {
+            const originalUrl = document.getElementById('originalUrl').value;
+            const algorithm = document.getElementById('algorithm').value;
+            const hashcode = CryptoJS[algorithm](originalUrl).toString();
+            if (algorithm !== lastAlgorithm) {
+                document.getElementById('latestHash').textContent = '';
+            }
+            lastAlgorithm = algorithm;
+            document.getElementById('latestHash').textContent =  hashcode;
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
